@@ -8,34 +8,39 @@ pipeline {
             steps {
                 checkout scm
                 sh 'ls *'
+                echo 'Repo cloned'
             }
         }
         stage('Build Image') {
             steps {
 		//sh 'docker build -t rudiheydra/jenkinstest ./pushdockerimage/' (this will use the tag latest)
 		        sh 'docker build -t rudiheydra/push-to-dockerhub:$BUILD_NUMBER ./pushdockerimage/'
+                echo 'Image built'
             }
         }
         stage('Docker Login') {
             steps {
                 //sh 'docker login -u $DOCKERHUB_CREDS_USR -p $DOCKERHUB_CREDS_PSW' (this will leave the password visible)
                 sh 'echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin'                
-                }
+                echo 'Docker login successful'
             }
+        }
         stage('Docker Push') {
             steps {
 		//sh 'docker push rudiheydrajenkinstest' (this will use the tag latest)    
                 sh 'docker push rudiheydra/push-to-dockerhub:$BUILD_NUMBER'
-                }
+                echo 'Docker push successful'
             }
+        }
         stage('Docker Logout') {
             steps {
 		//sh 'docker push rudiheydrajenkinstest' (this will use the tag latest)    
                 sh 'docker logout'
-                }
+                echo 'Docker logout successful'
             }
         }
-        
-        
     }
+        
+        
+}
 
