@@ -28,11 +28,14 @@ pipeline {
                 sh 'docker push rudiheydra/push-to-dockerhub:$BUILD_NUMBER'
                 }
             }
+        stage('Docker Logout') {
+            steps {
+		//sh 'docker push rudiheydrajenkinstest' (this will use the tag latest)    
+                sh 'docker logout'
+                }
+            }
         }
-    post {
-		always {
-			sh 'docker logout'
-		}
-	 }
+        
+        
     }
 
