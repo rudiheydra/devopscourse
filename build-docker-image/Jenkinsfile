@@ -12,7 +12,7 @@ pipeline {
         stage('Build Image') {
             steps {
 		//sh 'docker build -t rudiheydra/jenkinstest ./pushdockerimage/' (this will use the tag latest)
-		sh 'sudo docker build -t rudiheydra/jenkins-image-push:$BUILD_NUMBER ./build-docker-image/'
+		sh 'docker build -t rudiheydra/jenkins-image-push:$BUILD_NUMBER ./build-docker-image/'
                 echo 'Image built'
             }
         }
